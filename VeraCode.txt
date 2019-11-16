@@ -6,23 +6,32 @@ setwd('/Users/claudiaveraarias/Documents/ND_Classes/Fall_Semester_2019/Biocomput
 
 #1) Using the score-by-score information from this game summarized in 
 #“UWvMSU_1-22-13.txt” generate a graph
+
 UWvsMSU <- read.delim("/Users/claudiaveraarias/Documents/ND_Classes/Fall_Semester_2019/Biocomputing/R/W11_BC/Tutorial/IBC_Exercise_08-master/UWvMSU_1-22-13.txt", header = TRUE, sep = "\t", dec = ".")
- Score<- function (UWvsMSU)
-  for (i in 1:nrow(UWvsMSU)) {
-    UW <- UWvsMSU[UWvsMSU$team == "UW", ]
-    UWscore <- sum(UW[,3])
-    MSU <- UWvsMSU[UWvsMSU$team == "MSU", ]
-    MSUscore <- sum(MSU[,3])
-    return(c(UWscore, MSUscore))  
-  }
- UWscore <- 0 #just to start to sum
-VectorUW_MSU <- function(UWvsMSU) {
+
+ VectorUW_MSU <- function(UWvsMSU) {
   UW <- UWvsMSU[UWvsMSU$team == "UW", ]
   UWscore <- UW[,3]
+  UWcumScore <- cumsum(UW[,3])
+  UWtime <- UW[,1]
   MSU <- UWvsMSU[UWvsMSU$team == "MSU", ]
   MSUscore <- MSU[,3]
-  Table <- data.frame(cbind(UWscore, MSUscore))
-  return(Table)}
+  MSUcumScore <- cumsum(MSU[,3])
+  MSUtime <- MSU[,1]
+  vectorscore <- c(UWcumScore, MSUcumScore)
+  vectortime <- c(UWtime, MSUtime)
+  #ggplot(UW, aes(x=vectortime, y=vectorscore)) + geom_line(aes(color=factor(team), group=team))
+  #graph <- ggplot() + geom_line(data = UW, aes(x = time, y = score), color= "pink") +
+  #geom_line(data = MSU, aes(x = time, y = score), color = "blue")
+  #xlab(UWvsMSU$time) +
+ # ylab(UWvsMSU$score)
+  
+#print(graph)
+#}
+ ggplot(UW, aes(x=UWtime, y=UWcumScore)) + geom_line(color="pink")
+#  ggplot(MSU, aes(x=MSUtime, y=MSUcumScore)) + geom_line(color="blue")  
+}
+
 
 #2) Write a game called “guess my number”. The computer will generate a 
 # random number between 1 and 100. The user types in a number and the computer 
