@@ -40,3 +40,20 @@ PlotScore <- function(UWvsMSU) {
 # random number is higher, and “correct!” if the guess is correct. The player can 
 # continue guessing up to 10 times.
 
+##  Guess my numbers
+
+x <- sample(1:100, 1, replace = F) #random numbers between 1 and 100
+x
+
+Guess_my_number <- function(x){
+  #x <- sample(1:100, 1, replace = F) #random numbers between 1 and 100
+  for (i in 1:100)
+  if(i > x){
+    print("lower");
+  } else if (i < x) {
+    print("higher");
+  } else {
+    print("Correct");
+    break;
+  }
+}
