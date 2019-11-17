@@ -1,36 +1,37 @@
 # EXERCISE 8
 
 # select the work directory
+# instal the packages ggplot2 and select it 
 
+library("ggplot2")
 setwd('/Users/claudiaveraarias/Documents/ND_Classes/Fall_Semester_2019/Biocomputing/R/W11_BC/Tutorial/')
 
 #1) Using the score-by-score information from this game summarized in 
 #“UWvMSU_1-22-13.txt” generate a graph
 
+	# read the file
 UWvsMSU <- read.delim("/Users/claudiaveraarias/Documents/ND_Classes/Fall_Semester_2019/Biocomputing/R/W11_BC/Tutorial/IBC_Exercise_08-master/UWvMSU_1-22-13.txt", header = TRUE, sep = "\t", dec = ".")
 
- VectorUW_MSU <- function(UWvsMSU) {
+	#Function to plot scores
+ 
+PlotScore <- function(UWvsMSU) {
   UW <- UWvsMSU[UWvsMSU$team == "UW", ]
-  UWscore <- UW[,3]
+  UWscore <- UW[,3] 
   UWcumScore <- cumsum(UW[,3])
   UWtime <- UW[,1]
   MSU <- UWvsMSU[UWvsMSU$team == "MSU", ]
   MSUscore <- MSU[,3]
   MSUcumScore <- cumsum(MSU[,3])
   MSUtime <- MSU[,1]
-  vectorscore <- c(UWcumScore, MSUcumScore)
-  vectortime <- c(UWtime, MSUtime)
-  #ggplot(UW, aes(x=vectortime, y=vectorscore)) + geom_line(aes(color=factor(team), group=team))
-  #graph <- ggplot() + geom_line(data = UW, aes(x = time, y = score), color= "pink") +
-  #geom_line(data = MSU, aes(x = time, y = score), color = "blue")
-  #xlab(UWvsMSU$time) +
- # ylab(UWvsMSU$score)
+      # make that both objects  have the same size
+  length(UWtime)=length(MSUtime)
+  length(UWcumScore)=length(MSUcumScore)
   
-#print(graph)
-#}
- ggplot(UW, aes(x=UWtime, y=UWcumScore)) + geom_line(color="pink")
-#  ggplot(MSU, aes(x=MSUtime, y=MSUcumScore)) + geom_line(color="blue")  
-}
+  
+  ggplot() + geom_line(aes(x=UWtime, y=UWcumScore), color="pink") +
+    geom_line(aes(x=MSUtime, y=MSUcumScore), color="blue") +
+    ylab("Score")+xlab("Time")
+  }
 
 
 #2) Write a game called “guess my number”. The computer will generate a 
