@@ -57,3 +57,53 @@ Guess_my_number <- function(x){
     break;
   }
 }
+ #--------------------------
+#other
+
+# Classic guessing game with twist
+x = 0
+gotRight = 0
+failed = 0
+
+#Initial lambda for our random var
+correct = 100
+initial = correct
+
+# how many guesses should we allow per number
+maxGuesses = 10
+
+while(x != Inf) {
+  correct = rpois(1,correct) +1
+  
+  cat("I am thinking of a number between 1 and 100. What is it? (type Inf to quit)n")
+  
+  # solicit input from the user
+  x = scan(n=1) # just one item is this vector
+  
+  if(x == Inf) {
+    cat("The correct answer was", correct, "n")
+    cat("You got", gotRight, "right and failed", failed, "times. Maximum allowed guesses was", maxGuesses, "and initial lambda was", initial, ". Goodbye.n")
+    break
+  }
+  for (i in 1:maxGuesses) {
+    if(x == correct) {
+      print("Correct")
+      gotRight = gotRight + 1
+      break
+    } else {
+      if(i == maxGuesses) {
+        cat("You ran out of guesses. I will pick a new random number based on the last one.n")
+        failed = failed + 1
+      } else {
+        if(x < correct) {
+          cat("Higher.n")
+        } else {
+          cat("Lower.n")
+        }
+      x = scan(n=1)
+        }
+    }
+  }
+}
+
+
