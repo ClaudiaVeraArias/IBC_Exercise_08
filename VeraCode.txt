@@ -3,8 +3,10 @@
 # select the work directory
 # instal the packages ggplot2 and select it 
 
-library("ggplot2")
 setwd('/Users/claudiaveraarias/Documents/ND_Classes/Fall_Semester_2019/Biocomputing/R/W11_BC/Tutorial/')
+install.packages("ggplot2")
+library("ggplot2")
+
 
 #1) Using the score-by-score information from this game summarized in 
 #“UWvMSU_1-22-13.txt” generate a graph
