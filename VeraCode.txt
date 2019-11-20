@@ -66,7 +66,7 @@ gotRight = 0
 failed = 0
 
 #Initial lambda for our random var
-correct = 100
+correct = sample(1:100, 1, replace = F) # 100  I have to check this
 initial = correct
 
 # how many guesses should we allow per number
