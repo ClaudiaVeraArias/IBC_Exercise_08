@@ -28,9 +28,9 @@ PlotScore <- function(UWvsMSU) {
   length(UWcumScore)=length(MSUcumScore)
   
   
-  ggplot() + geom_line(aes(x=UWtime, y=UWcumScore), color="pink") +
+  ggplot() + geom_line(aes(x=UWtime, y=UWcumScore), color="green") +
     geom_line(aes(x=MSUtime, y=MSUcumScore), color="blue") +
-    ylab("Score")+xlab("Time")
+    labs( y = "Score", x = "Time", tittle = "UW vs MSU")
   }
 
 
