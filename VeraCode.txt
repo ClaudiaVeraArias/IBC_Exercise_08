@@ -14,27 +14,37 @@ library("ggplot2")
 	# read the file
 UWvsMSU <- read.delim("/Users/claudiaveraarias/Documents/ND_Classes/Fall_Semester_2019/Biocomputing/R/W11_BC/Tutorial/IBC_Exercise_08-master/UWvMSU_1-22-13.txt", header = TRUE, sep = "\t", dec = ".")
 
-	#Function to plot scores
- 
-PlotScore <- function(UWvsMSU) {
-  UW <- UWvsMSU[UWvsMSU$team == "UW", ]
-  UWscore <- UW[,3] 
-  UWcumScore <- cumsum(UW[,3])
-  UWtime <- UW[,1]
-  MSU <- UWvsMSU[UWvsMSU$team == "MSU", ]
-  MSUscore <- MSU[,3]
-  MSUcumScore <- cumsum(MSU[,3])
-  MSUtime <- MSU[,1]
-      # make that both objects  have the same size
-  length(UWtime)=length(MSUtime)
-  length(UWcumScore)=length(MSUcumScore)
+	UW_MSU <- matrix(data = NA, nrow = 51, ncol = 3)
+  UW_MSU[1,]=0
   
-  
-  ggplot() + geom_line(aes(x=UWtime, y=UWcumScore), color="green") +
-    geom_line(aes(x=MSUtime, y=MSUcumScore), color="blue") +
-    labs( y = "Score", x = "Time", tittle = "UW vs MSU")
-  }
+	# Loop to create a new table with the score sum
 
+    for(i in 1:nrow(UWvsMSU)){
+    if(UWvsMSU$team[i] == "UW"){
+      UW_MSU[i+1,2] <- UW_MSU[i, 2] + UWvsMSU$score[i]
+      UW_MSU[i+1,3] <- UW_MSU[i, 3]  
+    } else {
+      UW_MSU[i+1,3] <- UW_MSU[i, 3] + UWvsMSU$score[i]
+      UW_MSU[i+1,2] <- UW_MSU[i, 2]     
+      }
+    }
+
+	# Add a extra row in the original file "UWvsMSU" to have the same
+		# length of the new table "UW_MSU
+    
+    UWvsMSU2 <- rbind(c(NA,NA,NA), UWvsMSU)
+    UWvsMSU2[is.na(UWvsMSU2)] <- 0
+    
+    UWscore <- UW_MSU[,2]
+    MSUscore <- UW_MSU[,3]
+    Time <- UWvsMSU2[,1]
+    
+	# Plot the graph
+
+    ggplot() + geom_line(aes(x=Time, y=UWscore), color="green") +
+      geom_line(aes(x=Time, y=MSUscore), color="blue") +
+      labs( y = "Score", x = "Time", title = "UW vs MSU")
+    
 
 #2) Write a game called “guess my number”. The computer will generate a 
 # random number between 1 and 100. The user types in a number and the computer 
@@ -44,31 +54,14 @@ PlotScore <- function(UWvsMSU) {
 
 ##  Guess my numbers
 
-x <- sample(1:100, 1, replace = F) #random numbers between 1 and 100
-x
+# Initial parameters
 
-Guess_my_number <- function(x){
-  #x <- sample(1:100, 1, replace = F) #random numbers between 1 and 100
-  for (i in 1:100)
-  if(i > x){
-    print("lower");
-  } else if (i < x) {
-    print("higher");
-  } else {
-    print("Correct");
-    break;
-  }
-}
- #--------------------------
-#other
-
-# Classic guessing game with twist
 x = 0
 gotRight = 0
 failed = 0
 
 #Initial lambda for our random var
-correct = sample(1:100, 1, replace = F) # 100  I have to check this
+correct = sample(1:100, 1, replace = F) 
 initial = correct
 
 # how many guesses should we allow per number
